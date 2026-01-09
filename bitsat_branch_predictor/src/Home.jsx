@@ -10,7 +10,7 @@ function Home() {
     const [result, setResult] = useState([]);
 
     useEffect(() => {
-        fetch("/2026_most_likely.csv")
+        fetch("/most_likely_case.csv")
         .then((res) => res.text())
         .then((text) => {
             const rows = text.trim().split("\n").slice(1);
