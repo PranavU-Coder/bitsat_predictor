@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import {Frown, HeartCrack} from "lucide-react"
+import GraphPlot from "./components/ui/GraphPlot";
 
 const InputStates = {
     VALID: 0,
@@ -70,7 +71,7 @@ function Home() {
     };
 
     return (
-    <main className="min-h-screen flex items-start justify-center px-8 pt-24">
+    <main className="min-h-screen h-fit flex flex-col items-center px-8 pt-24">
         <div className="max-w-md w-full bg-slate-800 p-8 rounded-lg shadow-xl">
                 <h2 className="text-2xl text-blue-100 mb-6 font-mono font-semibold text-center">
                     Enter Score
@@ -115,6 +116,10 @@ function Home() {
                             }
                     })()}
                 </div>
+            </div>
+            <br/>
+            <div className="mt-10 mb-8">
+                <GraphPlot/>
             </div>
         </main>
     );

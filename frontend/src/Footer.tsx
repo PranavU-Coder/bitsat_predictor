@@ -1,6 +1,6 @@
 function Footer(){
     return (
-        <footer className="text-center py-4">
+        <footer className="text-center py-4 mt-10">
             <p className="text-gray-300">
                 &copy; Bitsat Branch Predictor {new Date().getFullYear()} all rights reserved &copy;
             </p>
