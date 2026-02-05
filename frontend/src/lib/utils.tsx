@@ -27,4 +27,4 @@ export interface PlotParams {
     onUpdate?: (figure: any) => void;
     onRelayout?: (event: any) => void;
     onClick?: (event: any) => void;
-  }
+}
