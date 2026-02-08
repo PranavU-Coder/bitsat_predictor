@@ -14,9 +14,9 @@ function Header() {
     const title = map[path as keyof typeof map];
     
     const navButtonClass = ({ isActive }: {isActive:boolean}) =>
-        `px-2 py-2 rounded-full transition
+        `px-1 py-1 rounded-full transition
     ${isActive
-        ? "bg-violet-700 text-white shadow-lg"
+        ? "bg-violet-700 text-white shadow-xl"
         : "bg-slate-950 text-violet-300 hover:bg-slate-800"}`;
         
         
