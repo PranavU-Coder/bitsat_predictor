@@ -28,3 +28,7 @@ export interface PlotParams {
     onRelayout?: (event: any) => void;
     onClick?: (event: any) => void;
 }
+
+export const gotoButtonStyle = "m-1 cursor-pointer bg-purple-800 border-2 text-black border-purple-950 w-[40px] h-[40px] rounded-xl flex justify-center items-center enabled:hover:bg-purple-600 enabled:active:bg-purple-800 disabled:transition-opacity disabled:opacity-60 active:transition-color hover:transition-color enabled:transition-opacity disabled:cursor-default"
+
+export const submitButtonStyle = "m-2 cursor-pointer bg-purple-800 border-2 border-purple-950 hover:bg-purple-600 hover:transition active:bg-purple-900 active:transition w-[150px] h-[40px] rounded-xl"

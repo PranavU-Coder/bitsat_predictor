@@ -2,10 +2,20 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import plotly.graph_objects as go
+import pandas as pd
 import csv
 
 csvFiles = ["best_case.csv", "most_likely_case.csv", "worst_case.csv"]
 campuses = ["Pilani", "Goa", "Hyderabad"]
+dfs = []
+
+for year in range(2013, 2026):
+    df = pd.read_csv(f"cutoffs/cutoff_{year}.csv")
+    dfs.append(df)
+
+df = pd.concat(dfs, ignore_index=True)
+df["year"] = df["year"].astype(int)
+df["marks"] = df["marks"].astype(int)
 
 app = FastAPI()
 
@@ -21,18 +31,29 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+def get_df_by_campus(campus: int = 0):
+    ndf = df[df["campus"]==campuses[campus]].iloc[:, -3:]
+    return ndf
+
 @app.get("/graph")
 def get_graph(campus: int = 0):
-    x = list(range(1, 11))
-    y = [3, 7, 4, 9, 6, 10, 8, 12, 11, 15]
 
-    fig = go.Figure(
-        go.Scatter(
-            x=x,
-            y=y,
+    campus_data = get_df_by_campus(campus)
+
+    fig = go.Figure()
+
+    for branch, values in campus_data.groupby("branch"):
+        fig.add_trace(go.Scatter(
+            x=values["year"],
+            y=values["marks"],
             mode="lines+markers",
-            name="Sample Line"
+            name=branch
         )
+    )
+
+    fig.update_layout(
+        legend_title="Branches",
+        template="plotly_dark"
     )
 
     fig.update_layout(
@@ -45,16 +66,18 @@ def get_graph(campus: int = 0):
             spikethickness=1,
             spikecolor="rgba(255,255,255,0.6)"
         ),
-        yaxis=dict(
-            showspikes=True,
-            spikemode="across",
-            spikesnap="cursor",
-            spikethickness=1,
-            spikecolor="rgba(255,255,255,0.6)"
-        ),
         margin=dict(l=20, r=20, t=30, b=30)
     )
 
+    fig.update_xaxes(
+        tickmode="linear",
+        dtick=1,
+        title="Year"
+    )
+
+    fig.update_yaxes(
+        title="Marks"
+    )
 
     return fig.to_dict()
 
