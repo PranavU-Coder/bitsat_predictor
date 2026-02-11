@@ -117,7 +117,7 @@ function PredictTable(){
                             </button>
                         </div>
                         <div>
-                            {[1,2,3].map((e, key)=>(
+                            {Array.from({length: Math.ceil(table.length / 5)}, (_, i) => i + 1).map((e, key)=>(
                                 <button key={key}
                                     onClick={()=>{goToPage(e)}}
                                     className={`w-[30px] h-[30px] rounded-md mx-1 border-purple-600 transition-opacity border-2 ${e!=activePage?"opacity-40":"bg-purple-600 text-black"}`}>
