@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { gotoButtonStyle } from "@/lib/utils";
-import DynamicDropdownForm from "./Dropdown";
+import DynamicDropdownForm from "@/components/ui/Dropdown";
 
 const PILANI = 0, GOA = 1, HYDERABAD = 2;
 const BEST = 0, AVG = 1, WORST = 2;
@@ -35,12 +35,20 @@ function PredictTable(){
     const [activePage, setActivePage] = useState<number>(1)
 
     async function handleSubmit(){
-        const url = `http://localhost:8000/table?campus=${formData.campus}&scenario=${formData.scenario}`
+        const url = `${import.meta.env.VITE_API_URL}/table?campus=${formData.campus}&scenario=${formData.scenario}`
         await fetch(url)
-        .then(res => res.json())
-        .then(data => setTable(data));
-        setRange([0,4]);
-        setActivePage(1);
+        .then(res => {
+            if(!res.ok) throw new Error(`HTTP ${res.status}`)
+            return res.json()
+        })
+        .then(data => {
+            setTable(data.length==0? [[]] : data );
+            setRange([0,4]);
+            setActivePage(1);
+        })
+        .catch(err => {
+            console.error("Failed to load table data. Error: ", err);
+        });
     }
 
     function goNext(){
@@ -72,34 +80,26 @@ function PredictTable(){
                     setForm={setForm}
                     handleSubmit={handleSubmit}
                 />
-                {/* <select onChange={(e)=>{setForm({...formData, "campus": Number(e.target.value)})}} className="m-2 p-2 text-center w-[200px] rounded-md cursor-pointer">
-                    <option value={PILANI}>Pilani</option>
-                    <option value={GOA}>Goa</option>
-                    <option value={HYDERABAD}>Hyderabad</option>
-                </select>
-                <select onChange={(e)=>{setForm({...formData, "scenario": Number(e.target.value)})}} className="m-2 p-2 text-center w-[200px] rounded-md cursor-pointer">
-                    <option value={BEST}>Best Case</option>
-                    <option value={AVG}>Average Case</option>
-                    <option value={WORST}>Worst Case</option>
-                </select> */}
-                {/* <br/>
-                <button type="button" onClick={handleSubmit} className={submitButtonStyle}>Submit</button>   */}
             </div>
             {table[0].length>0 && 
                 <div>
                     <table className="w-full m-2 mt-4 block border-collapse table-fixed">
-                        <tr className="bg-slate-800 text-slate-200">
-                            <th className="px-4 py-3 w-[150px] text-left font-medium">Campus</th>
-                            <th className="px-4 py-3 w-[400px] text-left font-medium">Branch</th>
-                            <th className="px-4 py-3 text-right font-medium">Marks</th>
-                        </tr>
-                        {(Array.from({length: tableRange[1]-tableRange[0]+1 }, (_, i)=>i+tableRange[0])).map((e)=>(
-                            <tr className="border-b border-slate-700">
-                                <td className="px-4 h-[50px]">{e<table.length?table[e][0]:""}</td>
-                                <td className="px-4 h-[50px]">{e<table.length?table[e][1]:""}</td>
-                                <td className="px-4 text-right h-[50px]">{e<table.length?table[e][2]:""}</td>
+                        <thead>
+                            <tr className="bg-slate-800 text-slate-200">
+                                <th className="px-4 py-3 w-[150px] text-left font-medium">Campus</th>
+                                <th className="px-4 py-3 w-[400px] text-left font-medium">Branch</th>
+                                <th className="px-4 py-3 text-right font-medium">Marks</th>
                             </tr>
-                        ))}
+                        </thead>
+                        <tbody>
+                            {(Array.from({length: tableRange[1]-tableRange[0]+1 }, (_, i)=>i+tableRange[0])).map((e, key)=>(
+                                <tr key={key} className="border-b border-slate-700">
+                                    <td className="px-4 h-[50px]">{e<table.length?table[e][0]:""}</td>
+                                    <td className="px-4 h-[50px]">{e<table.length?table[e][1]:""}</td>
+                                    <td className="px-4 text-right h-[50px]">{e<table.length?table[e][2]:""}</td>
+                                </tr>
+                            ))}
+                        </tbody>
                     </table>
                     <div className="flex justify-between items-center">
                         <div className="flex items-center">
@@ -117,8 +117,8 @@ function PredictTable(){
                             </button>
                         </div>
                         <div>
-                            {[1,2,3].map((e)=>(
-                                <button 
+                            {[1,2,3].map((e, key)=>(
+                                <button key={key}
                                     onClick={()=>{goToPage(e)}}
                                     className={`w-[30px] h-[30px] rounded-md mx-1 border-purple-600 transition-opacity border-2 ${e!=activePage?"opacity-40":"bg-purple-600 text-black"}`}>
                                     {e}

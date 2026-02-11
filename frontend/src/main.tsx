@@ -7,7 +7,7 @@ import "./index.css";
 
 const head = createHead();
 
-ReactDOM.createRoot(document.getElementById("root") as ReactDOM.Container).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
     <UnheadProvider head={head}>
         <BrowserRouter>
             <App />

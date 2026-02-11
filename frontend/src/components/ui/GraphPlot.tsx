@@ -24,11 +24,19 @@ function GraphPlot(){
     const [formData, setForm] = useState({ "campus":PILANI });
 
     async function loadData() {
-        const url = `http://localhost:8000/graph?campus=${formData.campus}`
+        const url = `${import.meta.env.VITE_API_URL}/graph?campus=${formData.campus}`
         await fetch(url)
-        .then(res => res.json())
-        .then(data => setGraph(data));
-        setIsLoaded(true);
+        .then(res => {
+            if(!res.ok) throw new Error(`HTTP ${res.status}`)
+            return res.json()
+        })
+        .then(data => {
+            setGraph(data);
+            setIsLoaded(true);
+        })
+        .catch(err => {
+            console.error("Failed to load Plot. Error: ", err);
+        });
     }
 
     return(
@@ -37,19 +45,12 @@ function GraphPlot(){
             <div className="h-[500px] w-[800px] pt-2 p-4 mb-4 text-center">
                 <div>
                     <p>Select Campus: </p>
-                    {/* <select onChange={(e)=>{setForm({"campus": Number(e.target.value)})}} className="m-2 p-2 text-center w-[200px] rounded-md cursor-pointer">
-                        <option value={PILANI} className="m-1">Pilani</option>
-                        <option value={GOA} className="m-1">Goa</option>
-                        <option value={HYDERABAD} className="m-1">Hyderabad</option>
-                    </select>  */}
                     <DynamicDropdownForm
                         configs={formConfig}
                         formData={formData}
                         setForm={setForm}
                         handleSubmit={loadData}
                     />
-                    {/* <br/>
-                    <button type="button" onClick={loadData} className={submitButtonStyle}>Submit</button>   */}
                 </div>
                 {isLoaded && <Plot
                     data = {graph.data}
