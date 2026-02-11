@@ -1,23 +1,25 @@
 import { NavLink, useLocation } from "react-router-dom";
 
-function Header() {
+const map = {
+    "/": "BITSAT-Predictor",
+    "/working": "How It Works",
+    "/about": "About",
+    "default": "BITSAT Branch Predictor"
+} as const;
 
+function Header() {
     const location = useLocation();
 
-    const map = {
-        "/": "BITSAT-Predictor",
-        "/working": "How It Works",
-        "/about": "About",
-    };
-
-    const navButtonClass = ({ isActive }) =>
-    `px-2 py-2 rounded-full transition
+    const path = (location.pathname in map)?location.pathname:"default";
+    const title = map[path as keyof typeof map];
+    
+    const navButtonClass = ({ isActive }: {isActive:boolean}) =>
+        `px-1 py-1 rounded-full transition
     ${isActive
-    ? "bg-violet-700 text-white shadow-lg"
-    : "bg-slate-950 text-violet-300 hover:bg-slate-800"}`;
-
-
-    const title = map[location.pathname] || "BITSAT Branch Predictor";
+        ? "bg-violet-700 text-white shadow-xl"
+        : "bg-slate-950 text-violet-300 hover:bg-slate-800"}`;
+        
+        
 
     return (
         <header className="w-full">

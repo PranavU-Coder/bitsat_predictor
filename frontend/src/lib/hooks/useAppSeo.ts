@@ -22,6 +22,11 @@ const useAppSeo = ({ title, description, image, isPrivate = false }: SEOParams) 
 
   const defaultTitle = `${VITE_WEBSITE_NAME} - Bitsat-Predictor`; 
   const fullTitle = title || defaultTitle;
+  const frontendUrl =
+  typeof VITE_FRONTEND_URL === "string"
+    ? VITE_FRONTEND_URL.replace(/\/$/, "")
+    : "";
+
 
   useSeoMeta({
     title: fullTitle,
@@ -31,7 +36,7 @@ const useAppSeo = ({ title, description, image, isPrivate = false }: SEOParams) 
       : {
         ogTitle: fullTitle,
         ogDescription: description || VITE_DEFAULT_DESCRIPTION,
-        ogUrl: `${VITE_FRONTEND_URL.replace(/\/$/, '')}${location.pathname}`,
+        ogUrl: `${frontendUrl}${location.pathname}`,
         ogImage: image || VITE_DEFAULT_OG_IMAGE,
         ogSiteName: VITE_WEBSITE_NAME,
         ogLocale: 'en_IN',
