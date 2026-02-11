@@ -35,12 +35,15 @@ df["marks"] = df["marks"].astype(int)
 
 for case_idx in range(3):
     path = "predictions/" + csvFiles[case_idx]
-    with open(path, newline='', encoding='utf-8') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        for row in csv_reader:
-            if row[0] in campusDict:
-                campus_idx = campusDict[row[0]]
-                tableData[campus_idx*3+case_idx].append(row)
+    try:
+        with open(path, newline='', encoding='utf-8') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            for row in csv_reader:
+                if row[0] in campusDict:
+                    campus_idx = campusDict[row[0]]
+                    tableData[campus_idx*3+case_idx].append(row)
+    except FileNotFoundError:
+        print(f"Prediction file {path} not found, skipping.")
 
 app = FastAPI()
 
