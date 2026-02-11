@@ -26,6 +26,9 @@ for year in range(2013, 2026):
     except FileNotFoundError:
         print(f"File cutoff_{year}.csv doesn't exist.")
 
+if not dfs:
+    raise RuntimeError("No cutoff CSV files found in cutoffs/ directory. Cannot start.")
+
 df = pd.concat(dfs, ignore_index=True)
 df["year"] = df["year"].astype(int)
 df["marks"] = df["marks"].astype(int)
