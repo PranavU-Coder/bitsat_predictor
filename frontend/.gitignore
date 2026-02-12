@@ -25,3 +25,6 @@ dist-ssr
 
 # env keys
 .env
+
+# fucking build files
+*.tsbuildinfo

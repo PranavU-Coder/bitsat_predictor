@@ -1,6 +1,0 @@
-fastapi
-uvicorn
-pydantic
-plotly
-pandas
-python-dotenv
