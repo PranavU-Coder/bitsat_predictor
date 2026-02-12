@@ -1,4 +1,3 @@
-import uvicorn
 from fastapi import FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
@@ -117,9 +116,3 @@ def get_table(campus: int = Query(0, ge=0, le=2), scenario: int = Query(0, ge=0,
         raise HTTPException(400, "Invalid Scenario or Campus index")
     
     return tableRows
-
-
-
-if __name__== "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-
