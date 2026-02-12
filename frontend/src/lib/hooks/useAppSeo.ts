@@ -1,5 +1,5 @@
-import { useSeoMeta } from '@unhead/react';
-import { useLocation } from 'react-router-dom';
+import { useSeoMeta } from "@unhead/react";
+import { useLocation } from "react-router-dom";
 
 type SEOParams = {
   title?: string;
@@ -8,7 +8,12 @@ type SEOParams = {
   isPrivate?: boolean;
 };
 
-const useAppSeo = ({ title, description, image, isPrivate = false }: SEOParams) => {
+const useAppSeo = ({
+  title,
+  description,
+  image,
+  isPrivate = false,
+}: SEOParams) => {
   const location = useLocation();
 
   const {
@@ -17,16 +22,15 @@ const useAppSeo = ({ title, description, image, isPrivate = false }: SEOParams) 
     VITE_DEFAULT_DESCRIPTION,
     VITE_DEFAULT_OG_IMAGE,
     VITE_TWITTER_HANDLE,
-    VITE_THEME_COLOR
+    VITE_THEME_COLOR,
   } = import.meta.env;
 
-  const defaultTitle = `${VITE_WEBSITE_NAME} - Bitsat-Predictor`; 
+  const defaultTitle = `${VITE_WEBSITE_NAME} - Bitsat-Predictor`;
   const fullTitle = title || defaultTitle;
   const frontendUrl =
-  typeof VITE_FRONTEND_URL === "string"
-    ? VITE_FRONTEND_URL.replace(/\/$/, "")
-    : "";
-
+    typeof VITE_FRONTEND_URL === "string"
+      ? VITE_FRONTEND_URL.replace(/\/$/, "")
+      : "";
 
   useSeoMeta({
     title: fullTitle,
@@ -34,22 +38,22 @@ const useAppSeo = ({ title, description, image, isPrivate = false }: SEOParams) 
     ...(isPrivate
       ? {}
       : {
-        ogTitle: fullTitle,
-        ogDescription: description || VITE_DEFAULT_DESCRIPTION,
-        ogUrl: `${frontendUrl}${location.pathname}`,
-        ogImage: image || VITE_DEFAULT_OG_IMAGE,
-        ogSiteName: VITE_WEBSITE_NAME,
-        ogLocale: 'en_IN',
-        ogType: 'website',
+          ogTitle: fullTitle,
+          ogDescription: description || VITE_DEFAULT_DESCRIPTION,
+          ogUrl: `${frontendUrl}${location.pathname}`,
+          ogImage: image || VITE_DEFAULT_OG_IMAGE,
+          ogSiteName: VITE_WEBSITE_NAME,
+          ogLocale: "en_IN",
+          ogType: "website",
 
-        twitterCard: 'summary_large_image',
-        twitterTitle: fullTitle,
-        twitterDescription: description || VITE_DEFAULT_DESCRIPTION,
-        twitterImage: image || VITE_DEFAULT_OG_IMAGE,
-        twitterSite: VITE_TWITTER_HANDLE,
+          twitterCard: "summary_large_image",
+          twitterTitle: fullTitle,
+          twitterDescription: description || VITE_DEFAULT_DESCRIPTION,
+          twitterImage: image || VITE_DEFAULT_OG_IMAGE,
+          twitterSite: VITE_TWITTER_HANDLE,
 
-        themeColor: VITE_THEME_COLOR
-      }),
+          themeColor: VITE_THEME_COLOR,
+        }),
   });
 };
 

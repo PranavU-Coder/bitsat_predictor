@@ -6,26 +6,25 @@ import About from "./About.tsx";
 import Home from "./Home.tsx";
 import Working from "./Working.tsx";
 
-
 function App() {
   return (
     <>
-    <div className="min-h-screen bg-gray-950">
-      <Header></Header>
+      <div className="min-h-screen bg-gray-950">
+        <Header></Header>
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/working" element={<Working />}> </Route>
-        <Route path="/about" element={<About />} />
-        <Route path="/home" element={<Home/>}></Route>
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/working" element={<Working />}>
+            {" "}
+          </Route>
+          <Route path="/about" element={<About />} />
+          <Route path="/home" element={<Home />}></Route>
+        </Routes>
 
-      <Footer></Footer>
-
-    </div>
-
+        <Footer></Footer>
+      </div>
     </>
   );
 }
 
-export default App
+export default App;

@@ -29,21 +29,15 @@ export default function DynamicDropdownForm<T extends string>({
 
   return (
     <form className="text-center space-y-4">
-
       {configs.map((config, index) => {
         const selectedLabel =
-          config.options.find(o => o.value === formData[config.key])
-            ?.label ?? config.placeholder;
+          config.options.find((o) => o.value === formData[config.key])?.label ??
+          config.placeholder;
 
         return (
-          <div
-            key={config.key}
-            className="relative inline-block w-[200px]"
-          >
+          <div key={config.key} className="relative inline-block w-[200px]">
             <div
-              onClick={() =>
-                setOpenIndex(openIndex === index ? null : index)
-              }
+              onClick={() => setOpenIndex(openIndex === index ? null : index)}
               className="m-2 p-2 rounded-md cursor-pointer
                          bg-[#1a103d] text-purple-200
                          border border-purple-800
@@ -59,11 +53,11 @@ export default function DynamicDropdownForm<T extends string>({
                            bg-[#120a2a] border border-purple-900
                            shadow-lg"
               >
-                {config.options.map(option => (
+                {config.options.map((option) => (
                   <li
                     key={option.value}
                     onClick={() => {
-                      setForm(prev => ({
+                      setForm((prev) => ({
                         ...prev,
                         [config.key]: option.value,
                       }));
@@ -87,10 +81,10 @@ export default function DynamicDropdownForm<T extends string>({
       <button
         type="button"
         onClick={handleSubmit}
-        className={submitButtonStyle}>
-          Submit
+        className={submitButtonStyle}
+      >
+        Submit
       </button>
-
     </form>
   );
 }
