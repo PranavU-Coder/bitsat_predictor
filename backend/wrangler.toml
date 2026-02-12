@@ -1,4 +1,4 @@
-name = "bitsat-predictor-backend"
+name = "bitsat-predictor"
 main = "main.py"
 compatibility_date = "2024-03-20"
 compatibility_flags = ["python_workers"]
