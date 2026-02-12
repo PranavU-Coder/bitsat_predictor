@@ -28,19 +28,21 @@ function GraphPlot() {
   const [formData, setForm] = useState({ campus: PILANI });
 
   async function loadData() {
+    // reset state at the start itself instead
+    setIsLoaded(false);
+
+    // this url sends request to huggingface which is hosting the backend logic since I don't know what the fuck I am doing with cloudflare workers.
     const url = `${import.meta.env.VITE_API_URL}/graph?campus=${formData.campus}`;
-    await fetch(url)
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
-      .then((data) => {
-        setGraph(data);
-        setIsLoaded(true);
-      })
-      .catch((err) => {
-        console.error("Failed to load Plot. Error: ", err);
-      });
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      setGraph(data);
+      setIsLoaded(true);
+    } catch (err) {
+      console.error("Failed to load Plot. Error: ", err);
+      setIsLoaded(false);
+    }
   }
 
   return (

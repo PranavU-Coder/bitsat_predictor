@@ -9,16 +9,14 @@ const map = {
 
 function Header() {
   const location = useLocation();
-
   const path = location.pathname in map ? location.pathname : "default";
   const title = map[path as keyof typeof map];
 
   const navButtonClass = ({ isActive }: { isActive: boolean }) =>
-    `px-1 py-1 rounded-full transition
-    ${
+    `px-4 py-2 rounded-full transition ${
       isActive
         ? "bg-violet-700 text-white shadow-xl"
-        : "bg-slate-950 text-violet-300 hover:bg-slate-800"
+        : "bg-slate-950 text-cyan-300 hover:bg-slate-800"
     }`;
 
   return (
@@ -27,24 +25,15 @@ function Header() {
         <h1 className="absolute left-1/2 -translate-x-1/2 text-blue-100 text-3xl font-semibold font-mono">
           {title}
         </h1>
-
         <div className="flex gap-2">
           <NavLink to="/" className={navButtonClass}>
-            <button className="px-4 py-2 text-cyan-300 bg-slate-950 rounded-full hover:bg-slate-800  font-mono">
-              Home
-            </button>
+            Home
           </NavLink>
-
           <NavLink to="/working" className={navButtonClass}>
-            <button className="px-4 py-2 text-cyan-300 bg-slate-950 rounded-full hover:bg-slate-800 transition font-mono">
-              Working
-            </button>
+            Working
           </NavLink>
-
           <NavLink to="/about" className={navButtonClass}>
-            <button className="px-4 py-2 text-cyan-300 bg-slate-950 rounded-full hover:bg-slate-800 transition font-mono">
-              About
-            </button>
+            About
           </NavLink>
         </div>
       </nav>
