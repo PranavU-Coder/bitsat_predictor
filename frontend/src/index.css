@@ -1,73 +1,595 @@
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Space+Mono:wght@400;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================
+   BRUTALIST THEME SYSTEM
+   Sharp, raw, unapologetic design
+   ============================================ */
+
 :root {
-  font-family: "JetBrains Mono", monospace;
-  line-height: 1.5;
-  font-weight: 400;
+  /* Brutalist Dark Mode (Forced) */
+  --brutal-bg: #0a0a0a;
+  --brutal-bg-secondary: #141414;
+  --brutal-bg-tertiary: #1f1f1f;
+  --brutal-text: #ffffff;
+  --brutal-text-secondary: #cccccc;
+  --brutal-text-muted: #888888;
+  --brutal-accent: #ff0000;
+  --brutal-accent-hover: #ff3333;
+  --brutal-border: #ffffff;
+  --brutal-shadow: #ffffff;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #0f172a;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --font-display: "JetBrains Mono", monospace;
+  --font-body: "Space Mono", monospace;
+  --font-mono: "JetBrains Mono", monospace;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-a:hover {
-  color: #535bf2;
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
-
-  min-width: 320px;
+  font-family: var(--font-body);
+  background-color: var(--brutal-bg);
+  color: var(--brutal-text);
+  line-height: 1.6;
   min-height: 100vh;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Brutalist Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
 }
-/* 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #4e0460;
+
+::-webkit-scrollbar-track {
+  background: var(--brutal-bg-secondary);
+  border-left: 2px solid var(--brutal-border);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--brutal-text);
+  border: 2px solid var(--brutal-border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brutal-accent);
+}
+
+/* ============================================
+   BRUTALIST UTILITY CLASSES
+   ============================================ */
+
+.brutal-box {
+  background: var(--brutal-bg);
+  border: 3px solid var(--brutal-border);
+  box-shadow: 6px 6px 0 var(--brutal-shadow);
+  transition: all 0.15s ease;
+}
+
+.brutal-box:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--brutal-shadow);
+}
+
+.brutal-box:active {
+  transform: translate(4px, 4px);
+  box-shadow: 2px 2px 0 var(--brutal-shadow);
+}
+
+.brutal-box-sm {
+  background: var(--brutal-bg);
+  border: 2px solid var(--brutal-border);
+  box-shadow: 4px 4px 0 var(--brutal-shadow);
+  transition: all 0.15s ease;
+}
+
+.brutal-box-sm:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--brutal-shadow);
+}
+
+.brutal-box-sm:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--brutal-shadow);
+}
+
+.brutal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 32px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--brutal-bg);
+  color: var(--brutal-text);
+  border: 3px solid var(--brutal-border);
+  box-shadow: 4px 4px 0 var(--brutal-shadow);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: all 0.15s ease;
+  position: relative;
+  overflow: hidden;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-} */
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+.brutal-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--brutal-accent);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.brutal-btn:hover::before {
+  left: 0;
+}
+
+.brutal-btn:hover {
+  color: #ffffff;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--brutal-shadow);
+}
+
+.brutal-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--brutal-shadow);
+}
+
+.brutal-btn-primary {
+  background: var(--brutal-text);
+  color: var(--brutal-bg);
+}
+
+.brutal-btn-primary:hover {
+  background: var(--brutal-accent);
+}
+
+.brutal-input {
+  width: 100%;
+  padding: 16px 20px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  background: var(--brutal-bg);
+  color: var(--brutal-text);
+  border: 3px solid var(--brutal-border);
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.brutal-input:focus {
+  box-shadow: 4px 4px 0 var(--brutal-accent);
+  transform: translate(-2px, -2px);
+}
+
+.brutal-input::placeholder {
+  color: var(--brutal-text-muted);
+}
+
+.brutal-card {
+  background: var(--brutal-bg);
+  border: 3px solid var(--brutal-border);
+  box-shadow: 6px 6px 0 var(--brutal-shadow);
+  padding: 32px;
+  position: relative;
+}
+
+.brutal-card::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: -8px;
+  bottom: -8px;
+  border: 2px solid var(--brutal-border);
+  z-index: -1;
+  opacity: 0.3;
+}
+
+.brutal-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: var(--brutal-accent);
+  color: #ffffff;
+  border: 2px solid var(--brutal-border);
+}
+
+.brutal-tag-outline {
+  background: transparent;
+  color: var(--brutal-text);
+}
+
+.brutal-line {
+  height: 3px;
+  background: var(--brutal-border);
+  width: 100%;
+}
+
+.brutal-line-accent {
+  background: var(--brutal-accent);
+}
+
+.brutal-grid-bg {
+  background-color: var(--brutal-bg);
+  background-image:
+    linear-gradient(#2a2a2a 1px, transparent 1px),
+    linear-gradient(90deg, #2a2a2a 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center center;
+}
+
+.brutal-stripe-bg {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--brutal-bg),
+    var(--brutal-bg) 10px,
+    var(--brutal-bg-secondary) 10px,
+    var(--brutal-bg-secondary) 20px
+  );
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+.brutal-heading-xl {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 10vw, 120px);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.brutal-heading-lg {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 6vw, 72px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.brutal-heading-md {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 4vw, 48px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.brutal-heading-sm {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 3vw, 24px);
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.brutal-text-lg {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.brutal-text {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.brutal-text-sm {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes brutal-flash {
+  0%,
+  100% {
+    opacity: 1;
   }
-  a:hover {
-    color: #747bff;
+  50% {
+    opacity: 0.3;
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+@keyframes brutal-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes brutal-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes brutal-slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes brutal-glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-3px, 3px);
+  }
+  40% {
+    transform: translate(-3px, -3px);
+  }
+  60% {
+    transform: translate(3px, 3px);
+  }
+  80% {
+    transform: translate(3px, -3px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+.brutal-animate-flash {
+  animation: brutal-flash 2s ease-in-out infinite;
+}
+
+.brutal-animate-up {
+  animation: brutal-slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.brutal-animate-left {
+  animation: brutal-slide-left 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.brutal-animate-right {
+  animation: brutal-slide-right 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Stagger delays */
+.brutal-stagger-1 {
+  animation-delay: 0ms;
+}
+.brutal-stagger-2 {
+  animation-delay: 100ms;
+}
+.brutal-stagger-3 {
+  animation-delay: 200ms;
+}
+.brutal-stagger-4 {
+  animation-delay: 300ms;
+}
+.brutal-stagger-5 {
+  animation-delay: 400ms;
+}
+.brutal-stagger-6 {
+  animation-delay: 500ms;
+}
+
+/* ============================================
+   SELECTION & FOCUS
+   ============================================ */
+
+::selection {
+  background: var(--brutal-accent);
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 3px solid var(--brutal-accent);
+  outline-offset: 4px;
+}
+
+/* ============================================
+   TABLE STYLES
+   ============================================ */
+
+.brutal-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.brutal-table th {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  padding: 20px;
+  text-align: left;
+  background: var(--brutal-text);
+  color: var(--brutal-bg);
+  border: 3px solid var(--brutal-border);
+}
+
+.brutal-table td {
+  padding: 16px 20px;
+  border: 3px solid var(--brutal-border);
+  border-top: none;
+  background: var(--brutal-bg);
+}
+
+.brutal-table tr:hover td {
+  background: var(--brutal-bg-secondary);
+}
+
+.brutal-table tr:nth-child(even) td {
+  background: var(--brutal-bg-secondary);
+}
+
+.brutal-table tr:nth-child(even):hover td {
+  background: var(--brutal-bg-tertiary);
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+
+.brutal-nav-link {
+  position: relative;
+  padding: 12px 20px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--brutal-text);
+  text-decoration: none;
+  border: 3px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.brutal-nav-link:hover {
+  border-color: var(--brutal-border);
+  box-shadow: 4px 4px 0 var(--brutal-shadow);
+  transform: translate(-2px, -2px);
+}
+
+.brutal-nav-link.active {
+  background: var(--brutal-text);
+  color: var(--brutal-bg);
+  border-color: var(--brutal-border);
+}
+
+/* ============================================
+   DECORATIVE ELEMENTS
+   ============================================ */
+
+.brutal-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--brutal-accent);
+}
+
+.brutal-corner-tl {
+  top: -3px;
+  left: -3px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.brutal-corner-tr {
+  top: -3px;
+  right: -3px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.brutal-corner-bl {
+  bottom: -3px;
+  left: -3px;
+  border-right: none;
+  border-top: none;
+}
+
+.brutal-corner-br {
+  bottom: -3px;
+  right: -3px;
+  border-left: none;
+  border-top: none;
+}
+
+.brutal-cross {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.brutal-cross::before,
+.brutal-cross::after {
+  content: "";
+  position: absolute;
+  background: var(--brutal-accent);
+}
+
+.brutal-cross::before {
+  width: 100%;
+  height: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.brutal-cross::after {
+  width: 4px;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+
+.brutal-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (min-width: 768px) {
+  .brutal-container {
+    padding: 0 48px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .brutal-container {
+    padding: 0 64px;
   }
 }

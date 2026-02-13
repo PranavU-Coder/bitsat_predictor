@@ -1,3 +1,4 @@
+import React from "react";
 import githubLogo from "@/assets/logo/github.png";
 import type { TeamMemberProps } from "@/lib/utils";
 
@@ -13,35 +14,42 @@ const TeamMember = ({
   };
 
   return (
-    <div className="cardbase w-[512px] h-[580px] flex flex-col">
-      <img
-        src={image}
-        alt={`${name}'s profile image`}
-        onContextMenu={preventContextMenu}
-        draggable={false}
-        className="relative inset-0 w-full h-96 rounded-[46px] p-2 object-cover flex-shrink-0"
-      />
-
-      <div className="relative flex items-center mx-5 my-2 font-satoshi flex-shrink-0">
-        <div className="">
-          <p className="text-xl font-semibold text-accent">{name}</p>
-          <p className="text-accent/60 font-geist-mono text-sm">{role}</p>
+    <div className="brutal-card w-full max-w-sm flex flex-col bg-[var(--brutal-bg)]">
+      <div className="relative mb-6 border-4 border-[var(--brutal-border)] overflow-hidden bg-[var(--brutal-bg-secondary)] aspect-square">
+        <img
+          src={image}
+          alt={`${name}'s profile`}
+          onContextMenu={preventContextMenu}
+          draggable={false}
+          className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300"
+        />
+        <div className="absolute bottom-0 left-0 bg-[var(--brutal-accent)] text-white px-3 py-1 font-bold text-xs uppercase border-t-4 border-r-4 border-[var(--brutal-border)]">
+          {role}
         </div>
-        <button
-          onClick={() => window.open(githubLink, "_blank")}
-          className="flex justify-center items-center cursor-pointer ml-auto w-16 bg-primary/70 rounded-lg h-12"
-          aria-label="Open GitHub profile"
+      </div>
+
+      <div className="flex items-start justify-between mb-4">
+        <div>
+          <h3 className="brutal-heading-md mb-1">{name}</h3>
+        </div>
+        <a
+          href={githubLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="brutal-btn p-2 min-w-0"
+          aria-label="GitHub Profile"
         >
           <img
             src={githubLogo}
-            alt="GitHub logo"
-            onContextMenu={preventContextMenu}
-            draggable={false}
-            className="w-8 rounded-xl"
+            alt="GitHub"
+            className="w-6 h-6 invert dark:invert-0"
           />
-        </button>
+        </a>
       </div>
-      <p className="text-white/70 text-[14px] px-5 tracking-tight pt-2 pb-4 font-outfit flex-grow overflow-y-auto">
+
+      <div className="brutal-line mb-4"></div>
+
+      <p className="brutal-text text-[var(--brutal-text-secondary)]">
         {description}
       </p>
     </div>

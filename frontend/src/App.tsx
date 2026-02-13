@@ -1,29 +1,28 @@
-// import './App.css'
 import { Routes, Route } from "react-router-dom";
-import Header from "./Header.tsx";
-import Footer from "./Footer.tsx";
-import About from "./About.tsx";
-import Home from "./Home.tsx";
-import Working from "./Working.tsx";
+import Header from "./Header";
+import Footer from "./Footer";
+import About from "./About";
+import Home from "./Home";
+import Working from "./Working";
+import { ThemeProvider } from "./lib/themeContext";
 
 function App() {
   return (
-    <>
-      <div className="min-h-screen bg-gray-950">
-        <Header></Header>
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/working" element={<Working />}>
-            {" "}
-          </Route>
-          <Route path="/about" element={<About />} />
-          <Route path="/home" element={<Home />}></Route>
-        </Routes>
-
-        <Footer></Footer>
+    <ThemeProvider>
+      <div className="flex flex-col min-h-screen bg-[var(--brutal-bg)] text-[var(--brutal-text)] transition-colors duration-300 relative">
+        <Header />
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/working" element={<Working />} />
+            <Route path="/about" element={<About />} />
+            {/* Redirect /home to / */}
+            <Route path="/home" element={<Home />} />
+          </Routes>
+        </div>
+        <Footer />
       </div>
-    </>
+    </ThemeProvider>
   );
 }
 

@@ -9,10 +9,19 @@ const Team = () => {
   });
 
   return (
-    <main className="min-h-screen bg-gray-950">
-      <div className="text-white pt-24 px-8">
-        <h1 className="text-3xl font-bold text-center mb-8">Our Team</h1>
-        <div className="max-w-7xl mx-auto flex flex-wrap gap-6 justify-center">
+    <main className="min-h-screen bg-[var(--brutal-bg)] pb-24">
+      <div className="brutal-container pt-12 md:pt-24">
+        <div className="text-center mb-16">
+          <div className="inline-block px-4 py-2 border-2 border-[var(--brutal-border)] bg-[var(--brutal-accent)] text-white font-bold uppercase mb-4">
+            The Architects
+          </div>
+          <h1 className="brutal-heading-lg mb-6">OUR TEAM</h1>
+          <p className="brutal-text-lg max-w-2xl mx-auto">
+            The minds behind the predictor. We build things that work.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap gap-8 justify-center">
           {TEAM_MEMBERS.map((member) => (
             <TeamMember
               key={member.name}
