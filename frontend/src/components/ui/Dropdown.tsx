@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { submitButtonStyle } from "@/lib/utils";
+import React from "react";
+import { ChevronDown } from "lucide-react";
 
 type Option = {
   label: string;
@@ -9,7 +9,7 @@ type Option = {
 type DropdownConfig<T extends string> = {
   readonly key: T;
   readonly placeholder: string;
-  options: readonly Option[];
+  readonly options: readonly Option[];
 };
 
 type DynamicFormProps<T extends string> = {
@@ -25,66 +25,44 @@ export default function DynamicDropdownForm<T extends string>({
   setForm,
   handleSubmit,
 }: DynamicFormProps<T>) {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const handleChange = (key: T, value: string) => {
+    setForm((prev) => ({
+      ...prev,
+      [key]: parseInt(value, 10),
+    }));
+  };
 
   return (
-    <form className="text-center space-y-4">
-      {configs.map((config, index) => {
-        const selectedLabel =
-          config.options.find((o) => o.value === formData[config.key])?.label ??
-          config.placeholder;
-
-        return (
-          <div key={config.key} className="relative inline-block w-[200px]">
-            <div
-              onClick={() => setOpenIndex(openIndex === index ? null : index)}
-              className="m-2 p-2 rounded-md cursor-pointer
-                         bg-[#1a103d] text-purple-200
-                         border border-purple-800
-                         hover:bg-[#24135c]
-                         transition"
-            >
-              {selectedLabel}
-            </div>
-
-            {openIndex === index && (
-              <ul
-                className="absolute z-10 w-full mt-1 rounded-md
-                           bg-[#120a2a] border border-purple-900
-                           shadow-lg"
+    <div className="flex flex-col gap-6 items-center">
+      <div className="flex flex-col md:flex-row gap-4 w-full justify-center">
+        {configs.map((config) => (
+          <div key={config.key} className="w-full md:w-64 relative">
+            <div className="relative">
+              <select
+                value={formData[config.key]}
+                onChange={(e) => handleChange(config.key, e.target.value)}
+                className="brutal-input appearance-none cursor-pointer bg-[var(--brutal-bg)]"
               >
                 {config.options.map((option) => (
-                  <li
-                    key={option.value}
-                    onClick={() => {
-                      setForm((prev) => ({
-                        ...prev,
-                        [config.key]: option.value,
-                      }));
-                      setOpenIndex(null);
-                    }}
-                    className="px-3 py-2 cursor-pointer
-                               text-purple-200
-                               hover:bg-purple-800/40"
-                  >
+                  <option key={option.value} value={option.value}>
                     {option.label}
-                  </li>
+                  </option>
                 ))}
-              </ul>
-            )}
+              </select>
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                <ChevronDown className="w-5 h-5" />
+              </div>
+            </div>
           </div>
-        );
-      })}
-
-      <br />
+        ))}
+      </div>
 
       <button
-        type="button"
         onClick={handleSubmit}
-        className={submitButtonStyle}
+        className="brutal-btn w-full md:w-auto min-w-[200px]"
       >
         Submit
       </button>
-    </form>
+    </div>
   );
 }

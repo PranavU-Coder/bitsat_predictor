@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { gotoButtonStyle } from "@/lib/utils";
 import DynamicDropdownForm from "@/components/ui/Dropdown";
 
 const PILANI = 0,
@@ -32,131 +31,156 @@ const formConfig = [
 ] as const;
 
 function PredictTable() {
-  const [formData, setForm] = useState({ campus: PILANI, scenario: BEST });
-  const [table, setTable] = useState<string[][]>([[]]);
+  const [formData, setForm] = useState<{
+    campus: number;
+    scenario: number;
+  }>({ campus: PILANI, scenario: BEST });
+  const [table, setTable] = useState<string[][]>([]);
   const [tableRange, setRange] = useState<number[]>([0, 4]);
   const [activePage, setActivePage] = useState<number>(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit() {
+    setLoading(true);
+    setError(null);
     const url = `${import.meta.env.VITE_API_URL}/table?campus=${formData.campus}&scenario=${formData.scenario}`;
-    await fetch(url)
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
-      .then((data) => {
-        setTable(data.length == 0 ? [[]] : data);
-        setRange([0, 4]);
-        setActivePage(1);
-      })
-      .catch((err) => {
-        console.error("Failed to load table data. Error: ", err);
-      });
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      setTable(data.length === 0 ? [] : data);
+      setRange([0, 4]);
+      setActivePage(1);
+    } catch (err) {
+      console.error("Failed to load table data. Error: ", err);
+      setError("Failed to fetch data. Please try again.");
+      setTable([]);
+    } finally {
+      setLoading(false);
+    }
   }
 
   function goNext() {
-    setRange([tableRange[0] + 5, tableRange[1] + 5]);
-    setActivePage(activePage + 1);
+    if (tableRange[1] < table.length - 1) {
+      setRange([tableRange[0] + 5, tableRange[1] + 5]);
+      setActivePage(activePage + 1);
+    }
   }
 
   function goPrev() {
-    setRange([
-      tableRange[0] - 5,
-      tableRange[1] - (tableRange[1] - tableRange[0] + 1),
-    ]);
-    setActivePage(activePage - 1);
+    if (tableRange[0] > 0) {
+      const newStart = Math.max(0, tableRange[0] - 5);
+      const newEnd = newStart + 4;
+      setRange([newStart, newEnd]);
+      setActivePage(activePage - 1);
+    }
   }
 
   function goToPage(pageNumber: number) {
-    setRange([pageNumber * 5 - 5, pageNumber * 5 - 1]);
+    const newStart = (pageNumber - 1) * 5;
+    const newEnd = newStart + 4;
+    setRange([newStart, newEnd]);
     setActivePage(pageNumber);
   }
 
+  const totalPages = Math.ceil(table.length / 5);
+
   return (
-    <>
-      <h1 className="text-center text-3xl mb-5">Check Predictions</h1>
-      <div className="text-center">
-        <div className="flex justify-center gap-5">
-          <p className="w-[180px]">Select Campus: </p>
-          <p className="w-[180px]">Select Case: </p>
-        </div>
+    <div className="w-full max-w-4xl mx-auto">
+      {/* SELECTION PANEL - NO BORDER/SHADOW per instructions */}
+      <div className="bg-[var(--brutal-bg-secondary)]/60 backdrop-blur-xl border border-[var(--brutal-border)] rounded-[10px] p-6 mb-8 w-full">
+        <h2 className="brutal-heading-md mb-6 text-center">
+          CHECK PREDICTIONS
+        </h2>
         <DynamicDropdownForm
           configs={formConfig}
           formData={formData}
           setForm={setForm}
           handleSubmit={handleSubmit}
         />
+        {loading && (
+          <p className="mt-4 text-center font-bold animate-pulse">
+            LOADING DATA...
+          </p>
+        )}
+        {error && (
+          <p className="mt-4 text-center text-[var(--brutal-accent)] font-bold">
+            {error}
+          </p>
+        )}
       </div>
-      {table[0].length > 0 && (
-        <div>
-          <table className="w-full m-2 mt-4 block border-collapse table-fixed">
+
+      {/* RESULTS TABLE */}
+      {table.length > 0 && (
+        <div className="brutal-box p-4 md:p-6 overflow-x-auto">
+          <table className="brutal-table w-full mb-6">
             <thead>
-              <tr className="bg-slate-800 text-slate-200">
-                <th className="px-4 py-3 w-[150px] text-left font-medium">
-                  Campus
-                </th>
-                <th className="px-4 py-3 w-[400px] text-left font-medium">
-                  Branch
-                </th>
-                <th className="px-4 py-3 text-right font-medium">Marks</th>
+              <tr>
+                <th>Campus</th>
+                <th>Branch</th>
+                <th style={{ textAlign: 'center' }}>Marks</th>
               </tr>
             </thead>
             <tbody>
-              {Array.from(
-                { length: tableRange[1] - tableRange[0] + 1 },
-                (_, i) => i + tableRange[0],
-              ).map((e, key) => (
-                <tr key={key} className="border-b border-slate-700">
-                  <td className="px-4 h-[50px]">
-                    {e < table.length ? table[e][0] : ""}
-                  </td>
-                  <td className="px-4 h-[50px]">
-                    {e < table.length ? table[e][1] : ""}
-                  </td>
-                  <td className="px-4 text-right h-[50px]">
-                    {e < table.length ? table[e][2] : ""}
-                  </td>
+              {table.slice(tableRange[0], tableRange[1] + 1).map((row, idx) => (
+                <tr key={idx}>
+                  <td>{row[0]}</td>
+                  <td>{row[1]}</td>
+                  <td style={{ textAlign: 'center' }} className="font-bold">{row[2]}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div className="flex justify-between items-center">
-            <div className="flex items-center">
+
+          {/* PAGINATION */}
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2">
               <button
                 onClick={goPrev}
-                disabled={tableRange[0] === 0}
-                className={gotoButtonStyle}
+                disabled={activePage === 1}
+                className="brutal-btn p-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Previous page"
               >
-                <ArrowLeft />
+                <ArrowLeft className="w-4 h-4" />
               </button>
+              <span className="font-bold font-mono">
+                Page {activePage} of {totalPages}
+              </span>
               <button
                 onClick={goNext}
-                disabled={tableRange[1] >= table.length - 1}
-                className={gotoButtonStyle}
+                disabled={activePage === totalPages}
+                className="brutal-btn p-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Next page"
               >
-                <ArrowRight />
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
-            <div>
-              {Array.from(
-                { length: Math.ceil(table.length / 5) },
-                (_, i) => i + 1,
-              ).map((e, key) => (
+
+            {/* Page Numbers (Limited to avoid clutter) */}
+            <div className="flex flex-wrap justify-center gap-2">
+              {(() => {
+                const window = Math.min(5, totalPages);
+                const start = Math.max(1, Math.min(activePage - 2, totalPages - window + 1));
+                return Array.from({ length: window }, (_, i) => start + i)
+                  .filter((p) => p >= 1 && p <= totalPages);
+              })().map((p) => (
                 <button
-                  key={key}
-                  onClick={() => {
-                    goToPage(e);
-                  }}
-                  className={`w-[30px] h-[30px] rounded-md mx-1 border-purple-600 transition-opacity border-2 ${e != activePage ? "opacity-40" : "bg-purple-600 text-black"}`}
+                  key={p}
+                  onClick={() => goToPage(p)}
+                  className={`w-8 h-8 flex items-center justify-center font-bold border-2 border-[var(--brutal-border)] transition-all ${p === activePage
+                    ? "bg-[var(--brutal-text)] text-[var(--brutal-bg)]"
+                    : "bg-[var(--brutal-bg)] hover:bg-[var(--brutal-bg-secondary)]"
+                    }`}
                 >
-                  {e}
+                  {p}
                 </button>
               ))}
             </div>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

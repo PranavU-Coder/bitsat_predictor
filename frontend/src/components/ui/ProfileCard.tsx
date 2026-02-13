@@ -1,4 +1,5 @@
-import githubLogo from "@/assets/logo/github.png";
+import React from "react";
+import { Github } from "lucide-react";
 import type { TeamMemberProps } from "@/lib/utils";
 
 const TeamMember = ({
@@ -13,35 +14,36 @@ const TeamMember = ({
   };
 
   return (
-    <div className="cardbase w-[512px] h-[580px] flex flex-col">
-      <img
-        src={image}
-        alt={`${name}'s profile image`}
-        onContextMenu={preventContextMenu}
-        draggable={false}
-        className="relative inset-0 w-full h-96 rounded-[46px] p-2 object-cover flex-shrink-0"
-      />
-
-      <div className="relative flex items-center mx-5 my-2 font-satoshi flex-shrink-0">
-        <div className="">
-          <p className="text-xl font-semibold text-accent">{name}</p>
-          <p className="text-accent/60 font-geist-mono text-sm">{role}</p>
+    <div className="brutal-card w-full max-w-xs flex flex-col">
+      <div className="relative mb-5 rounded-[10px] overflow-hidden bg-[var(--brutal-bg-tertiary)] aspect-square">
+        <img
+          src={image}
+          alt={`${name}'s profile`}
+          onContextMenu={preventContextMenu}
+          draggable={false}
+          className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+        />
+        <div className="absolute bottom-2 left-2 px-2.5 py-1 bg-[var(--brutal-accent)] text-white text-[10px] font-bold uppercase tracking-wider rounded">
+          {role}
         </div>
-        <button
-          onClick={() => window.open(githubLink, "_blank")}
-          className="flex justify-center items-center cursor-pointer ml-auto w-16 bg-primary/70 rounded-lg h-12"
-          aria-label="Open GitHub profile"
-        >
-          <img
-            src={githubLogo}
-            alt="GitHub logo"
-            onContextMenu={preventContextMenu}
-            draggable={false}
-            className="w-8 rounded-xl"
-          />
-        </button>
       </div>
-      <p className="text-white/70 text-[14px] px-5 tracking-tight pt-2 pb-4 font-outfit flex-grow overflow-y-auto">
+
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="brutal-heading-md text-lg">{name}</h3>
+        <a
+          href={githubLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-8 h-8 flex items-center justify-center shrink-0 border border-[var(--brutal-border)] rounded-[10px] text-[var(--brutal-text-muted)] hover:text-[var(--brutal-text)] hover:border-[#3f3f46] hover:bg-[var(--brutal-bg-tertiary)] transition-all"
+          aria-label="GitHub Profile"
+        >
+          <Github className="w-4 h-4" />
+        </a>
+      </div>
+
+      <div className="brutal-line mb-3"></div>
+
+      <p className="brutal-text text-[var(--brutal-text-secondary)] text-sm leading-relaxed">
         {description}
       </p>
     </div>
