@@ -2,6 +2,7 @@ import useAppSeo from "@/lib/hooks/useAppSeo";
 import TeamMember from "@/components/ui/ProfileCard";
 import { TEAM_MEMBERS } from "@/lib/utils";
 import { Github, BookOpen } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Team = () => {
   useAppSeo({
@@ -45,12 +46,12 @@ const Team = () => {
             </p>
             <p className="brutal-text text-[var(--brutal-text-secondary)]">
               Head to{" "}
-              <a
-                href="/working"
+              <Link
+                to="/working"
                 className="text-[var(--brutal-accent)] font-bold hover:underline underline-offset-4"
               >
                 Under The Hood
-              </a>{" "}
+              </Link>{" "}
               to see exactly how every prediction is made.
             </p>
           </div>

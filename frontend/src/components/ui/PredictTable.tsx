@@ -34,7 +34,6 @@ function PredictTable() {
   const [formData, setForm] = useState<{
     campus: number;
     scenario: number;
-    [key: string]: any;
   }>({ campus: PILANI, scenario: BEST });
   const [table, setTable] = useState<string[][]>([]);
   const [tableRange, setRange] = useState<number[]>([0, 4]);
@@ -160,29 +159,23 @@ function PredictTable() {
 
             {/* Page Numbers (Limited to avoid clutter) */}
             <div className="flex flex-wrap justify-center gap-2">
-              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                // Logic to show relevant pages around activePage could go here
-                // For now showing first 5 or logic to keep it simple
-                let p = i + 1;
-                if (totalPages > 5) {
-                  if (activePage > 3) p = activePage - 2 + i;
-                  if (p > totalPages) p = i + 1; // Fallback simplistic
-                }
-                return p;
-              })
-                .filter((p) => p <= totalPages)
-                .map((p) => (
-                  <button
-                    key={p}
-                    onClick={() => goToPage(p)}
-                    className={`w-8 h-8 flex items-center justify-center font-bold border-2 border-[var(--brutal-border)] transition-all ${p === activePage
-                      ? "bg-[var(--brutal-text)] text-[var(--brutal-bg)]"
-                      : "bg-[var(--brutal-bg)] hover:bg-[var(--brutal-bg-secondary)]"
-                      }`}
-                  >
-                    {p}
-                  </button>
-                ))}
+              {(() => {
+                const window = Math.min(5, totalPages);
+                const start = Math.max(1, Math.min(activePage - 2, totalPages - window + 1));
+                return Array.from({ length: window }, (_, i) => start + i)
+                  .filter((p) => p >= 1 && p <= totalPages);
+              })().map((p) => (
+                <button
+                  key={p}
+                  onClick={() => goToPage(p)}
+                  className={`w-8 h-8 flex items-center justify-center font-bold border-2 border-[var(--brutal-border)] transition-all ${p === activePage
+                    ? "bg-[var(--brutal-text)] text-[var(--brutal-bg)]"
+                    : "bg-[var(--brutal-bg)] hover:bg-[var(--brutal-bg-secondary)]"
+                    }`}
+                >
+                  {p}
+                </button>
+              ))}
             </div>
           </div>
         </div>

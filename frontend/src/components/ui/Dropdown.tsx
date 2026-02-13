@@ -15,7 +15,7 @@ type DropdownConfig<T extends string> = {
 type DynamicFormProps<T extends string> = {
   configs: readonly DropdownConfig<T>[];
   formData: Record<T, number>;
-  setForm: React.Dispatch<React.SetStateAction<any>>;
+  setForm: React.Dispatch<React.SetStateAction<Record<T, number>>>;
   handleSubmit: () => void;
 };
 
@@ -26,7 +26,7 @@ export default function DynamicDropdownForm<T extends string>({
   handleSubmit,
 }: DynamicFormProps<T>) {
   const handleChange = (key: T, value: string) => {
-    setForm((prev: any) => ({
+    setForm((prev) => ({
       ...prev,
       [key]: parseInt(value, 10),
     }));

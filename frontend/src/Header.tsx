@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `brutal-nav-link ${isActive ? "active" : ""}`;
@@ -14,14 +21,14 @@ function Header() {
     <>
       <header className="w-full border-b border-[var(--brutal-border)] bg-[var(--brutal-bg)]/80 backdrop-blur-md sticky top-0 z-50">
         <div className="brutal-container h-16 flex items-center justify-between">
-          <NavLink to="/" className="flex items-center gap-3 text-[var(--brutal-text)] no-underline">
+          <NavLink to="/" className="flex items-center gap-3 text-[var(--brutal-text)] no-underline" aria-label="BITSAT Predictor">
             <div className="w-2 h-6 bg-[var(--brutal-accent)] rounded-[10px]"></div>
-            <h1 className="font-display text-sm font-bold tracking-wide uppercase hidden sm:block">
+            <span className="font-display text-sm font-bold tracking-wide uppercase hidden sm:block">
               BITSAT // PREDICTOR
-            </h1>
-            <h1 className="font-display text-sm font-bold tracking-wide uppercase sm:hidden">
+            </span>
+            <span className="font-display text-sm font-bold tracking-wide uppercase sm:hidden">
               BITSAT
-            </h1>
+            </span>
           </NavLink>
 
           {/* Desktop Nav */}
