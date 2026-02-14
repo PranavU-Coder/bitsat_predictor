@@ -4,8 +4,28 @@ import Plotly from "plotly.js-basic-dist";
 import createPlotlyComponent from "react-plotly.js/factory";
 import { useTheme } from "@/lib/themeContext";
 
+interface BranchData {
+  name: string;
+  years: number[];
+  marks: number[];
+}
+
+interface GraphResponse {
+  branches: BranchData[];
+}
+
+interface Trace {
+  x: number[];
+  y: number[];
+  name: string;
+  type: 'scatter';
+  mode: 'lines+markers';
+  line?: { color?: string; width?: number };
+  marker?: { size?: number; line?: { width?: number; color?: string } };
+}
+
 interface PlotParams {
-  data?: any[];
+  data?: Trace[];
   layout?: any;
 }
 
@@ -26,6 +46,29 @@ const formConfig = [
     ],
   },
 ] as const;
+
+const PHOENIX_PATTERNS = [
+  /computer science/i,
+  /electrical/i,
+  /electronics/i,
+  /mathematics.{0,3}(computing|and)/i,
+];
+
+const MSC_PATTERNS = [
+  /M\.?Sc\.?/i,
+];
+
+function isBE(branchName: string): boolean {
+  return !MSC_PATTERNS.some((pattern) => pattern.test(branchName));
+}
+
+function isMSc(branchName: string): boolean {
+  return MSC_PATTERNS.some((pattern) => pattern.test(branchName));
+}
+
+function isPhoenix(branchName: string): boolean {
+  return PHOENIX_PATTERNS.some((pattern) => pattern.test(branchName));
+}
 
 function GraphPlot() {
   const { theme } = useTheme();
@@ -54,8 +97,28 @@ function GraphPlot() {
     try {
       const res = await fetch(url);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      setGraph(data);
+      const response: GraphResponse = await res.json();
+      
+      const traces: Trace[] = response.branches.map((branch) => ({
+        x: branch.years,
+        y: branch.marks,
+        name: branch.name,
+        type: 'scatter',
+        mode: 'lines+markers',
+      }));
+      
+      setGraph({
+        data: traces,
+        layout: {
+          title: {
+            text: 'Cutoff Trends',
+            font: {
+              family: '"JetBrains Mono", monospace',
+              size: isMobile ? 14 : 18,
+            },
+          },
+        },
+      });
       setIsLoaded(true);
     } catch (err) {
       console.error("Failed to load Plot. Error: ", err);
