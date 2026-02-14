@@ -28,3 +28,4 @@ dist-ssr
 
 # fucking build files
 *.tsbuildinfo
+.vercel
