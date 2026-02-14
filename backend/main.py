@@ -54,13 +54,13 @@ app.add_middleware(
 )
 
 
-def get_df_by_campus(campus: int = Query(0, ge=0, le=2)):
+def get_df_by_campus(campus: int = 0):
     try:
         campus_name = campusArr[campus]
     except IndexError:
         raise HTTPException(status_code=400, detail="Invalid Campus Index")
 
-    ndf = df[df["campus"] == campus_name].iloc[:, -3:]
+    ndf = df[df["campus"] == campus_name][["year", "branch", "marks"]]
     return ndf
 
 
