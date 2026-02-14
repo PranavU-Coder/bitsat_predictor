@@ -18,8 +18,8 @@ interface Trace {
   x: number[];
   y: number[];
   name: string;
-  type: 'scatter';
-  mode: 'lines+markers';
+  type: "scatter";
+  mode: "lines+markers";
   line?: { color?: string; width?: number };
   marker?: { size?: number; line?: { width?: number; color?: string } };
 }
@@ -47,34 +47,11 @@ const formConfig = [
   },
 ] as const;
 
-const PHOENIX_PATTERNS = [
-  /computer science/i,
-  /electrical/i,
-  /electronics/i,
-  /mathematics.{0,3}(computing|and)/i,
-];
-
-const MSC_PATTERNS = [
-  /M\.?Sc\.?/i,
-];
-
-function isBE(branchName: string): boolean {
-  return !MSC_PATTERNS.some((pattern) => pattern.test(branchName));
-}
-
-function isMSc(branchName: string): boolean {
-  return MSC_PATTERNS.some((pattern) => pattern.test(branchName));
-}
-
-function isPhoenix(branchName: string): boolean {
-  return PHOENIX_PATTERNS.some((pattern) => pattern.test(branchName));
-}
-
 function GraphPlot() {
   const { theme } = useTheme();
   const [graph, setGraph] = useState<PlotParams>({});
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const [formData, setForm] = useState<{ campus: number;[key: string]: any }>({
+  const [formData, setForm] = useState<{ campus: number; [key: string]: any }>({
     campus: PILANI,
   });
   const [loading, setLoading] = useState(false);
@@ -98,20 +75,20 @@ function GraphPlot() {
       const res = await fetch(url);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const response: GraphResponse = await res.json();
-      
+
       const traces: Trace[] = response.branches.map((branch) => ({
         x: branch.years,
         y: branch.marks,
         name: branch.name,
-        type: 'scatter',
-        mode: 'lines+markers',
+        type: "scatter",
+        mode: "lines+markers",
       }));
-      
+
       setGraph({
         data: traces,
         layout: {
           title: {
-            text: 'Cutoff Trends',
+            text: "Cutoff Trends",
             font: {
               family: '"JetBrains Mono", monospace',
               size: isMobile ? 14 : 18,
@@ -134,21 +111,21 @@ function GraphPlot() {
 
   const legendConfig = isMobile
     ? {
-      orientation: "h" as const,
-      yanchor: "top" as const,
-      y: -0.3,
-      xanchor: "center" as const,
-      x: 0.5,
-      font: { family: '"Iosevka", monospace', color: textColor, size: 10 },
-      bgcolor: "transparent",
-      borderwidth: 0,
-    }
+        orientation: "h" as const,
+        yanchor: "top" as const,
+        y: -0.3,
+        xanchor: "center" as const,
+        x: 0.5,
+        font: { family: '"Iosevka", monospace', color: textColor, size: 10 },
+        bgcolor: "transparent",
+        borderwidth: 0,
+      }
     : {
-      font: { family: '"Iosevka", monospace', color: textColor },
-      bgcolor: bgColor,
-      bordercolor: textColor,
-      borderwidth: 1,
-    };
+        font: { family: '"Iosevka", monospace', color: textColor },
+        bgcolor: bgColor,
+        bordercolor: textColor,
+        borderwidth: 1,
+      };
 
   const margins = isMobile
     ? { l: 40, r: 8, t: 20, b: 80 }
