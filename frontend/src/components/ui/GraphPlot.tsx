@@ -4,14 +4,9 @@ import Plotly from "plotly.js-basic-dist";
 import createPlotlyComponent from "react-plotly.js/factory";
 import { useTheme } from "@/lib/themeContext";
 
-interface BranchData {
-  name: string;
-  years: number[];
-  marks: number[];
-}
-
-interface GraphData {
-  branches: BranchData[];
+interface PlotParams {
+  data?: any[];
+  layout?: any;
 }
 
 const Plot = createPlotlyComponent(Plotly);
@@ -57,7 +52,7 @@ function isPhoenix(branchName: string): boolean {
 
 function GraphPlot() {
   const { theme } = useTheme();
-  const [graphData, setGraphData] = useState<GraphData | null>(null);
+  const [graph, setGraph] = useState<PlotParams>({});
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [formData, setForm] = useState<{ campus: number;[key: string]: any }>({
     campus: PILANI,
@@ -65,8 +60,6 @@ function GraphPlot() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [degreeFilter, setDegreeFilter] = useState<"all" | "be" | "msc">("all");
-  const [phoenixOnly, setPhoenixOnly] = useState(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 640);
@@ -78,7 +71,6 @@ function GraphPlot() {
   async function loadData() {
     setLoading(true);
     setError(null);
-    setGraphData(null);
     setIsLoaded(false);
 
     const url = `${import.meta.env.VITE_API_URL}/graph?campus=${formData.campus}`;
@@ -95,14 +87,6 @@ function GraphPlot() {
       setLoading(false);
     }
   }
-
-  const filteredBranches =
-    graphData?.branches.filter((branch) => {
-      if (degreeFilter === "be" && !isBE(branch.name)) return false;
-      if (degreeFilter === "msc" && !isMSc(branch.name)) return false;
-      if (phoenixOnly && !isPhoenix(branch.name)) return false;
-      return true;
-    }) || [];
 
   const bgColor = theme === "dark" ? "#09090b" : "#ffffff";
   const textColor = theme === "dark" ? "#ffffff" : "#000000";
@@ -145,61 +129,6 @@ function GraphPlot() {
               handleSubmit={loadData}
             />
           </div>
-
-          {/* FILTERS */}
-          {isLoaded && (
-            <div className="w-full max-w-md mt-4 pt-4 border-t border-[var(--brutal-border)]">
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                {/* Degree Filter */}
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-sm">Degree:</span>
-                  <div className="flex rounded border border-[var(--brutal-border)] overflow-hidden">
-                    <button
-                      onClick={() => setDegreeFilter("all")}
-                      className={`px-3 py-1 text-sm font-bold transition-colors ${
-                        degreeFilter === "all"
-                          ? "bg-[var(--brutal-accent)] text-white"
-                          : "bg-[var(--brutal-bg)] hover:bg-[var(--brutal-bg-secondary)]"
-                      }`}
-                    >
-                      All
-                    </button>
-                    <button
-                      onClick={() => setDegreeFilter("be")}
-                      className={`px-3 py-1 text-sm font-bold transition-colors border-l border-[var(--brutal-border)] ${
-                        degreeFilter === "be"
-                          ? "bg-[var(--brutal-accent)] text-white"
-                          : "bg-[var(--brutal-bg)] hover:bg-[var(--brutal-bg-secondary)]"
-                      }`}
-                    >
-                      B.E.
-                    </button>
-                    <button
-                      onClick={() => setDegreeFilter("msc")}
-                      className={`px-3 py-1 text-sm font-bold transition-colors border-l border-[var(--brutal-border)] ${
-                        degreeFilter === "msc"
-                          ? "bg-[var(--brutal-accent)] text-white"
-                          : "bg-[var(--brutal-bg)] hover:bg-[var(--brutal-bg-secondary)]"
-                      }`}
-                    >
-                      M.Sc.
-                    </button>
-                  </div>
-                </div>
-
-                {/* Phoenix Filter */}
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={phoenixOnly}
-                    onChange={(e) => setPhoenixOnly(e.target.checked)}
-                    className="w-4 h-4 accent-[var(--brutal-accent)]"
-                  />
-                  <span className="font-bold text-sm">Phoenix Only</span>
-                </label>
-              </div>
-            </div>
-          )}
         </div>
         {loading && (
           <p className="mt-4 font-bold animate-pulse">GENERATING PLOT...</p>
@@ -210,22 +139,21 @@ function GraphPlot() {
       </div>
 
       {/* PLOT CONTAINER */}
-      {isLoaded && graphData && (
+      {isLoaded && graph.data && (
         <div className="brutal-box p-2 sm:p-4 bg-[var(--brutal-bg)] overflow-hidden">
           <div className="w-full h-[350px] sm:h-[400px] md:h-[500px] relative">
             <Plot
-              data={filteredBranches.map((branch) => ({
-                x: branch.years,
-                y: branch.marks,
-                mode: "lines+markers",
-                name: branch.name,
-                line: { width: isMobile ? 2 : 3 },
+              data={graph.data.map((trace: any) => ({
+                ...trace,
+                line: { ...trace.line, width: isMobile ? 2 : 3 },
                 marker: {
+                  ...trace.marker,
                   size: isMobile ? 5 : 8,
                   line: { width: 1, color: textColor },
                 },
               }))}
               layout={{
+                ...graph.layout,
                 dragmode: false,
                 plot_bgcolor: bgColor,
                 paper_bgcolor: bgColor,
@@ -235,8 +163,7 @@ function GraphPlot() {
                   size: isMobile ? 10 : 12,
                 },
                 xaxis: {
-                  tickmode: "linear",
-                  dtick: 1,
+                  ...graph.layout?.xaxis,
                   gridcolor: gridColor,
                   zerolinecolor: gridColor,
                   tickfont: {
@@ -254,6 +181,7 @@ function GraphPlot() {
                   },
                 },
                 yaxis: {
+                  ...graph.layout?.yaxis,
                   gridcolor: gridColor,
                   zerolinecolor: gridColor,
                   tickfont: {
@@ -271,12 +199,11 @@ function GraphPlot() {
                   },
                 },
                 legend: {
-                  title: { text: "Branches" },
+                  ...graph.layout?.legend,
                   ...legendConfig,
                 },
                 margin: margins,
                 autosize: true,
-                hovermode: "x",
               }}
               config={{
                 responsive: true,
