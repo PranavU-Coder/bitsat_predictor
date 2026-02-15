@@ -31,7 +31,6 @@ const PILANI = 0,
   GOA = 1,
   HYDERABAD = 2;
 
-// Phoenix branch keywords (flexible matching)
 const PHOENIX_KEYWORDS = [
   "computer science",
   "electrical",
@@ -39,7 +38,7 @@ const PHOENIX_KEYWORDS = [
   "math",
 ];
 
-// Check if a branch is phoenix (electrical/cse related)
+// Check if a branch is phoenix
 function isPhoenixBranch(branchName: string): boolean {
   const lower = branchName.toLowerCase();
   return PHOENIX_KEYWORDS.some((keyword) => lower.includes(keyword));
@@ -110,7 +109,7 @@ function GraphPlot() {
   const [showMSc, setShowMSc] = useState(true);
   const [showPhoenixOnly, setShowPhoenixOnly] = useState(false);
 
-  // Refs for tracking state - used to avoid dependency cycles
+  // Refs for tracking state
   const visibleTracesRef = useRef<Map<string, Trace>>(new Map());
   const allBranchesRef = useRef<BranchData[]>([]);
 
@@ -132,7 +131,7 @@ function GraphPlot() {
       const type = getBranchType(branch.name);
       const isPhoenix = isPhoenixBranch(branch.name);
 
-      // Phoenix only filter takes precedence - if enabled, only show phoenix branches
+      // Phoenix only filter takes precedence - if enabled, this should only show phoenix branches
       if (showPhoenixOnly) {
         return (
           isPhoenix &&
@@ -159,7 +158,6 @@ function GraphPlot() {
     [shouldShowBranch],
   );
 
-  // Progressive processing effect - handles both adding and removing branches
   useEffect(() => {
     // Stop processing if both queues are empty
     if (
@@ -205,12 +203,11 @@ function GraphPlot() {
         }
         setRenderQueue((prev) => prev.slice(1));
       }
-    }, 0); // 0ms delay - render instantly
+    }, 0);
 
     return () => clearTimeout(timer);
   }, [renderQueue, removeQueue, isProcessing]);
 
-  // Smart filter change handler - only adds/removes what changed
   // This effect runs when filters change, using refs to avoid dependency on visibleTraces
   useEffect(() => {
     if (!isLoaded || allBranches.length === 0) return;
@@ -335,7 +332,6 @@ function GraphPlot() {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      {/* SELECTION PANEL */}
       <div className="bg-[var(--brutal-bg-secondary)]/60 backdrop-blur-xl border border-[var(--brutal-border)] rounded-[10px] p-6 mb-8 w-full text-center">
         <h2 className="brutal-heading-md mb-6">PLOT TRENDS</h2>
         <div className="flex flex-col items-center gap-4">
@@ -350,7 +346,6 @@ function GraphPlot() {
           </div>
         </div>
 
-        {/* FILTERS */}
         {isLoaded && (
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <button
@@ -394,7 +389,6 @@ function GraphPlot() {
         )}
       </div>
 
-      {/* PLOT CONTAINER - Always visible once loaded */}
       {isLoaded && (
         <div className="brutal-box p-2 sm:p-4 bg-[var(--brutal-bg)] overflow-hidden">
           <div className="w-full h-[350px] sm:h-[400px] md:h-[500px] relative">

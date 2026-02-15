@@ -24,7 +24,7 @@ const formConfig = [
     placeholder: "Select Scenario",
     options: [
       { label: "Best Case", value: BEST },
-      { label: "Average Case", value: AVG },
+      { label: "Most Likely", value: AVG },
       { label: "Worst Case", value: WORST },
     ],
   },
@@ -88,7 +88,6 @@ function PredictTable() {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      {/* SELECTION PANEL - NO BORDER/SHADOW per instructions */}
       <div className="bg-[var(--brutal-bg-secondary)]/60 backdrop-blur-xl border border-[var(--brutal-border)] rounded-[10px] p-6 mb-8 w-full">
         <h2 className="brutal-heading-md mb-6 text-center">
           CHECK PREDICTIONS
@@ -111,7 +110,6 @@ function PredictTable() {
         )}
       </div>
 
-      {/* RESULTS TABLE */}
       {table.length > 0 && (
         <div className="brutal-box p-4 md:p-6 overflow-x-auto">
           <table className="brutal-table w-full mb-6">
@@ -119,7 +117,7 @@ function PredictTable() {
               <tr>
                 <th>Campus</th>
                 <th>Branch</th>
-                <th style={{ textAlign: 'center' }}>Marks</th>
+                <th style={{ textAlign: "center" }}>Marks</th>
               </tr>
             </thead>
             <tbody>
@@ -127,13 +125,14 @@ function PredictTable() {
                 <tr key={idx}>
                   <td>{row[0]}</td>
                   <td>{row[1]}</td>
-                  <td style={{ textAlign: 'center' }} className="font-bold">{row[2]}</td>
+                  <td style={{ textAlign: "center" }} className="font-bold">
+                    {row[2]}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
 
-          {/* PAGINATION */}
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
               <button
@@ -157,21 +156,26 @@ function PredictTable() {
               </button>
             </div>
 
-            {/* Page Numbers (Limited to avoid clutter) */}
             <div className="flex flex-wrap justify-center gap-2">
               {(() => {
                 const window = Math.min(5, totalPages);
-                const start = Math.max(1, Math.min(activePage - 2, totalPages - window + 1));
-                return Array.from({ length: window }, (_, i) => start + i)
-                  .filter((p) => p >= 1 && p <= totalPages);
+                const start = Math.max(
+                  1,
+                  Math.min(activePage - 2, totalPages - window + 1),
+                );
+                return Array.from(
+                  { length: window },
+                  (_, i) => start + i,
+                ).filter((p) => p >= 1 && p <= totalPages);
               })().map((p) => (
                 <button
                   key={p}
                   onClick={() => goToPage(p)}
-                  className={`w-8 h-8 flex items-center justify-center font-bold border-2 border-[var(--brutal-border)] transition-all ${p === activePage
-                    ? "bg-[var(--brutal-text)] text-[var(--brutal-bg)]"
-                    : "bg-[var(--brutal-bg)] hover:bg-[var(--brutal-bg-secondary)]"
-                    }`}
+                  className={`w-8 h-8 flex items-center justify-center font-bold border-2 border-[var(--brutal-border)] transition-all ${
+                    p === activePage
+                      ? "bg-[var(--brutal-text)] text-[var(--brutal-bg)]"
+                      : "bg-[var(--brutal-bg)] hover:bg-[var(--brutal-bg-secondary)]"
+                  }`}
                 >
                   {p}
                 </button>

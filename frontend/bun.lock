@@ -1,8 +1,9 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
-      "name": "bitsat-branch-predictor",
+      "name": "bitsat-predictor",
       "dependencies": {
         "@fontsource/iosevka": "^5.2.5",
         "@unhead/react": "^2.1.1",

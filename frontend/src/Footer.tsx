@@ -9,7 +9,7 @@ function Footer() {
             BITSAT PREDICTOR
           </h3>
           <p className="text-xs text-[var(--brutal-text-muted)]">
-            Data-driven branch predictions.
+            Data-driven predictions.
           </p>
         </div>
 

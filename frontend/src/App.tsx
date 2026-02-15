@@ -16,7 +16,6 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/working" element={<Working />} />
             <Route path="/about" element={<About />} />
-            {/* Redirect /home to / */}
             <Route path="/home" element={<Navigate to="/" replace />} />
           </Routes>
         </div>

@@ -7,11 +7,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ============================================
-   REFINED DARK THEME
-   Minimal, clean, intentional
-   ============================================ */
-
 :root {
   --brutal-bg: #09090b;
   --brutal-bg-secondary: #111113;
@@ -75,10 +70,6 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--brutal-text-muted);
 }
-
-/* ============================================
-   UTILITY CLASSES — REFINED
-   ============================================ */
 
 .brutal-box {
   background: var(--brutal-bg);

@@ -12,22 +12,21 @@ export const TEAM_MEMBERS: TeamMemberProps[] = [
     name: "Pranav",
     role: "Lead",
     githubLink: "https://github.com/PranavU-Coder",
-    description:
-      "Progenitor of the idea, created the ML-model for predictions and contributed to the website.",
+    description: "Model & Website Deployment",
   },
   {
     image: "https://github.com/ObnoxiousOrca.png",
     name: "Arkadeep",
     role: "Contributor",
     githubLink: "https://github.com/ObnoxiousOrca",
-    description: "Contributed to the project's development and formulation.",
+    description: "Website's Backend",
   },
   {
     image: "https://github.com/vee1e.png",
     name: "Lakshit",
     role: "Contributor",
     githubLink: "https://github.com/vee1e",
-    description: "Worked on the frontend development and design of the website.",
+    description: "Website's Frontend",
   },
 ] as const;
 

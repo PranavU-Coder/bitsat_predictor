@@ -6,25 +6,24 @@ import PredictTable from "./components/ui/PredictTable";
 function Home() {
   return (
     <main className="brutal-grid-bg min-h-screen relative overflow-hidden">
-      {/* Hero / Intro */}
       <div className="brutal-container pt-24 md:pt-32 pb-16 relative z-10">
         <div className="brutal-box p-6 md:p-12 mb-16 relative brutal-animate-up brutal-stagger-1">
           <h1 className="brutal-heading-xl mb-5">
-            PREDICT <span className="text-[var(--brutal-accent)]">YOUR</span>{" "}
-            FUTURE
+            PREDICT <span className="text-[var(--brutal-accent)]">BITSAT</span>{" "}
+            CUTOFFS
           </h1>
           <p className="brutal-text-lg max-w-2xl mb-3 text-[var(--brutal-text-secondary)] brutal-animate-up brutal-stagger-2">
-            Advanced BITSAT branch prediction based on historical cutoffs. No
-            fluff. Just data.
+            BITSAT branch prediction based on historical cutoffs. No fluff. Just
+            data.
           </p>
           <p className="brutal-text max-w-2xl text-[var(--brutal-text-muted)] brutal-animate-up brutal-stagger-2">
             We mathematically model external parameters like paper difficulty —
-            the hidden variable behind BITSAT's wildly fluctuating cutoffs — so
-            you get honest, transparent predictions.
+            behind BITSAT's wildly fluctuating cutoffs so you get honest,
+            transparent predictions. We don't demand any signups or intend to
+            place ads. Just Here To Help The Students.
           </p>
         </div>
 
-        {/* Prediction Section */}
         <section className="mb-20 relative">
           <div className="flex flex-col gap-12">
             <div className="brutal-animate-up brutal-stagger-3">
@@ -35,7 +34,6 @@ function Home() {
               <PredictTable />
             </div>
 
-            {/* Branch Exclusion Notice */}
             <div className="brutal-animate-up brutal-stagger-4">
               <div className="brutal-box p-5 md:p-8 border-l-2 border-l-[var(--brutal-accent)]">
                 <div className="flex items-center gap-2 mb-4">
@@ -57,7 +55,7 @@ function Home() {
                     <span className="font-bold text-[var(--brutal-accent)]">
                       not included
                     </span>{" "}
-                    — they have insufficient historical data for reliable
+                    since they have insufficient historical data for reliable
                     predictions.
                   </p>
 
@@ -78,7 +76,6 @@ function Home() {
 
             <div className="brutal-line brutal-line-accent my-4"></div>
 
-            {/* Trends */}
             <div className="brutal-animate-up brutal-stagger-4">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-1.5 h-5 bg-[var(--brutal-accent)] rounded-[10px]"></div>
@@ -89,7 +86,6 @@ function Home() {
 
             <div className="brutal-line brutal-line-accent my-4"></div>
 
-            {/* Misc. Resources */}
             <div className="brutal-animate-up brutal-stagger-4">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-1.5 h-5 bg-[var(--brutal-accent)] rounded-[10px]"></div>
@@ -97,7 +93,6 @@ function Home() {
               </div>
 
               <div className="grid sm:grid-cols-2 gap-4">
-                {/* Syllabus */}
                 <a
                   href="https://admissions.bits-pilani.ac.in/FD/downloads/BITSAT_Syllabus.pdf?06012025"
                   target="_blank"
@@ -108,7 +103,9 @@ function Home() {
                     <span className="px-2.5 py-1 bg-[var(--brutal-accent)] text-white text-[10px] font-bold uppercase tracking-wider rounded">
                       PDF
                     </span>
-                    <h3 className="brutal-heading-sm text-sm">BITSAT Syllabus</h3>
+                    <h3 className="brutal-heading-sm text-sm">
+                      BITSAT Syllabus
+                    </h3>
                   </div>
                   <p className="brutal-text text-sm text-[var(--brutal-text-secondary)] mb-3">
                     Official BITSAT syllabus from BITS Pilani admissions.
@@ -118,7 +115,6 @@ function Home() {
                   </span>
                 </a>
 
-                {/* Study Group */}
                 <a
                   href="https://link.yeolpumta.com/P3R5cGU9Z3JvdXBJbnZpdGUmaWQ9MzU5OTUzNg=="
                   target="_blank"
@@ -129,38 +125,50 @@ function Home() {
                     <span className="px-2.5 py-1 bg-[var(--brutal-accent)] text-white text-[10px] font-bold uppercase tracking-wider rounded">
                       Study
                     </span>
-                    <h3 className="brutal-heading-sm text-sm">YeolPumTa Group</h3>
+                    <h3 className="brutal-heading-sm text-sm">
+                      YeolPumTa Group
+                    </h3>
                   </div>
                   <p className="brutal-text text-sm text-[var(--brutal-text-secondary)] mb-3">
-                    Join the <span className="font-bold text-[var(--brutal-text)]">BITSATards</span> study
-                    group. Password: <code className="text-xs bg-[var(--brutal-bg-secondary)] px-1.5 py-0.5 rounded font-mono">123</code>
+                    Join the{" "}
+                    <span className="font-bold text-[var(--brutal-text)]">
+                      BITSATards
+                    </span>{" "}
+                    study group. Password:{" "}
+                    <code className="text-xs bg-[var(--brutal-bg-secondary)] px-1.5 py-0.5 rounded font-mono">
+                      123
+                    </code>
                   </p>
                   <span className="text-xs text-[var(--brutal-accent)] font-bold group-hover:underline underline-offset-4">
                     Join Group →
                   </span>
                 </a>
 
-                {/* Important Dates */}
                 <div className="brutal-box p-5">
                   <div className="flex items-center gap-2 mb-3">
                     <span className="px-2.5 py-1 bg-[var(--brutal-accent)] text-white text-[10px] font-bold uppercase tracking-wider rounded">
                       Dates
                     </span>
-                    <h3 className="brutal-heading-sm text-sm">BITSAT 2026 Schedule</h3>
+                    <h3 className="brutal-heading-sm text-sm">
+                      BITSAT 2026 Schedule
+                    </h3>
                   </div>
                   <div className="space-y-2">
                     <p className="brutal-text text-sm text-[var(--brutal-text-secondary)]">
-                      <span className="font-bold text-[var(--brutal-text)]">Session 1:</span>{" "}
+                      <span className="font-bold text-[var(--brutal-text)]">
+                        Session 1:
+                      </span>{" "}
                       Wednesday, 15 April 2026
                     </p>
                     <p className="brutal-text text-sm text-[var(--brutal-text-secondary)]">
-                      <span className="font-bold text-[var(--brutal-text)]">Session 2:</span>{" "}
+                      <span className="font-bold text-[var(--brutal-text)]">
+                        Session 2:
+                      </span>{" "}
                       Sunday, 24 May 2026
                     </p>
                   </div>
                 </div>
 
-                {/* Community Resources */}
                 <div className="brutal-box p-5">
                   <div className="flex items-center gap-2 mb-3">
                     <span className="px-2.5 py-1 bg-[var(--brutal-accent)] text-white text-[10px] font-bold uppercase tracking-wider rounded">
@@ -195,7 +203,6 @@ function Home() {
 
             <div className="brutal-line brutal-line-accent my-4"></div>
 
-            {/* FAQ */}
             <FaqSection />
           </div>
         </section>
@@ -259,7 +266,9 @@ function FaqSection() {
               <span className="brutal-text text-sm font-bold">{item.q}</span>
               <span
                 className="text-[var(--brutal-accent)] text-lg font-bold shrink-0 transition-transform duration-200"
-                style={{ transform: openIndex === i ? "rotate(45deg)" : "rotate(0deg)" }}
+                style={{
+                  transform: openIndex === i ? "rotate(45deg)" : "rotate(0deg)",
+                }}
               >
                 +
               </span>

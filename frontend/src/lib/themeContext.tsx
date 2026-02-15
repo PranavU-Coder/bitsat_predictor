@@ -12,19 +12,16 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  // Always set theme to dark
   const theme: Theme = "dark";
 
   useEffect(() => {
     const root = window.document.documentElement;
     root.setAttribute("data-theme", "dark");
     localStorage.setItem("theme", "dark");
-    // Ensure the class is added for Tailwind dark mode
     root.classList.add("dark");
   }, []);
 
   const toggleTheme = () => {
-    // No-op
     console.log("Theme toggle disabled. Dark mode enforced.");
   };
 
