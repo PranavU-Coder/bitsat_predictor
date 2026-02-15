@@ -4,7 +4,7 @@
 ![TypeScript](https://img.shields.io/badge/Language-TypeScript-3178C6?logo=typescript&logoColor=white)
 ![Linter](https://img.shields.io/badge/Linter-ESLint-4B32C3?logo=eslint&logoColor=white)
 
-# Introducing Bitsatards-Web
+# Introducing Bitsat-Predictor
 
 This repository houses the general-purpose web application for bitsat-predictions and is a followup to [bitsatards-bot](https://github.com/PranavU-Coder/bitsatards_bot).This website provides a visual, accessible platform for predicting cutoffs based on past-year trends from 2013.
 
