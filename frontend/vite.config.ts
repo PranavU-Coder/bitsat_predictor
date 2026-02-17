@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     sitemap({
       hostname: "https://bitsat-predictor.com",
-      dynamicRoutes: ["/", "/under-the-hood", "/about-us"],
+      dynamicRoutes: ["/", "/working", "/about"],
     }),
   ],
   server: {
