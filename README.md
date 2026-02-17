@@ -42,11 +42,6 @@ Now that the general-purpose website is live, the focus will shift back to impro
 
 The dataset we are working with is available here: [dataset](!https://www.kaggle.com/datasets/pranavunni/bitsat-cutoff-dataset-2017-2025) for anyone willing to spin up their own models or visualizations.
 
-Upcoming milestones:
-
-1. Allow users to link their Discord bot profiles directly to the website for seamless data syncing.
-2. Introduce more granular variance factors to the regression model.
-
 > ## Contributing
 >
 > This project is developed hoping to be a community effort. If you'd like to improve the UI, optimize the charting, or add features.

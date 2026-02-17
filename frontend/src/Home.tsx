@@ -3,7 +3,15 @@ import { Link } from "react-router-dom";
 import GraphPlot from "./components/ui/GraphPlot";
 import PredictTable from "./components/ui/PredictTable";
 
+
+import useAppSeo from "./lib/hooks/useAppSeo"; 
+
 function Home() {
+   useAppSeo({
+    title: "BITSAT Predictor | Data-Driven BITS Cutoff Predictions",
+    description: "Predict your BITSAT score and BITS branch cutoffs with our data-driven tool. Accurate predictions for BITS Pilani, Goa, and Hyderabad based on historical data.",
+  });
+
   return (
     <main className="brutal-grid-bg min-h-screen relative overflow-hidden">
       <div className="brutal-container pt-24 md:pt-32 pb-16 relative z-10">
