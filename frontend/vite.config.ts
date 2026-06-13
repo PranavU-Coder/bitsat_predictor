@@ -79,9 +79,8 @@ function multiPageHtml(routes: RouteMeta[]): Plugin {
             `<meta name="twitter:description" content="${route.description}" />`,
           );
 
-        const routeDir = path.join(distDir, route.path.replace(/^\//, ""));
-        await fs.mkdir(routeDir, { recursive: true });
-        await fs.writeFile(path.join(routeDir, "index.html"), html);
+        const fileName = `${route.path.replace(/^\//, "")}.html`;
+        await fs.writeFile(path.join(distDir, fileName), html);
       }
     },
   };
