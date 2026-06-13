@@ -23,9 +23,9 @@ const useAppSeo = ({ title, description, image, isPrivate = false }: SEOParams) 
   const defaultTitle = `${VITE_WEBSITE_NAME} - Bitsat-Predictor`;
   const fullTitle = title || defaultTitle;
   const frontendUrl =
-    typeof VITE_FRONTEND_URL === "string"
-      ? VITE_FRONTEND_URL.replace(/\/$/, "")
-      : "https://bitsat-predictor.com";
+  typeof VITE_FRONTEND_URL === "string" && VITE_FRONTEND_URL.trim() !== ""
+    ? VITE_FRONTEND_URL.replace(/\/$/, "")
+    : "https://bitsat-predictor.com";
 
   const cleanPath =
     location.pathname === "/"
